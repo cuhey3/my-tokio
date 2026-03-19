@@ -1,0 +1,6 @@
+[workspace]
+
+members = ["http-client-adapter","webrtc-adapter"]
+
+resolver = "3"
+

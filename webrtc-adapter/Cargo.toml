@@ -1,0 +1,11 @@
+[package]
+name = "webrtc-adapter"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+webrtc = "0.17.1"
+serde = { version = "1.0.228", features = ["derive"] }
+tokio = "1.50.0"
+serde_json = "1.0.149"
+webrtc-if = { git = "https://github.com/cuhey3/my-if.git" }
