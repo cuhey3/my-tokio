@@ -10,13 +10,7 @@ use webrtc::interceptor::registry::Registry;
 use webrtc::peer_connection::RTCPeerConnection;
 use webrtc::peer_connection::configuration::RTCConfiguration;
 use webrtc::peer_connection::sdp::session_description::RTCSessionDescription;
-use webrtc_if::peer_connection_adapter::PeerConnectionAdapter;
-
-#[derive(Debug)]
-pub enum PeerType {
-    Offerer,
-    Answerer,
-}
+use webrtc_if::peer_connection_adapter::{PeerConnectionAdapter, PeerType};
 
 pub struct PeerConnectionAdapterImpl {
     peer_connection: Arc<RTCPeerConnection>,
@@ -48,6 +42,7 @@ impl PeerConnectionAdapterImpl {
             on_data_channel_rx: None,
         }
     }
+
     fn check_peer_type(&self, expect_peer_type: PeerType) -> Result<(), String> {
         let real_peer_type = &self.peer_type.as_ref().ok_or("peer type not set")?;
 
@@ -63,6 +58,7 @@ impl PeerConnectionAdapterImpl {
             ))
         }
     }
+
     pub async fn get_message_receiver(
         &self,
     ) -> Result<MutexGuard<'_, Receiver<DataChannelMessage>>, String> {
@@ -104,6 +100,7 @@ impl PeerConnectionAdapter for PeerConnectionAdapterImpl {
             .map_err(|err| format!("create data channel failed: {}", err))?;
 
         let (on_open_tx, on_open_rx) = mpsc::channel::<()>(1);
+
         let (on_message_tx, on_message_rx) = mpsc::channel::<DataChannelMessage>(1);
 
         set_default_data_channel_handlers("offerer", &data_channel, on_open_tx, on_message_tx)
@@ -138,9 +135,13 @@ impl PeerConnectionAdapter for PeerConnectionAdapterImpl {
             .map_err(|err| format!("serialize offer failed: {}", err))?;
 
         self.peer_type = Some(PeerType::Offerer);
+
         self.offer = Some(offer.clone());
+
         self.on_open_rx = Some(on_open_rx);
+
         self.on_message_rx = Some(Arc::new(Mutex::new(on_message_rx)));
+
         Ok(offer)
     }
 
