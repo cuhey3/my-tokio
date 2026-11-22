@@ -939,7 +939,7 @@ dependencies = [
 [[package]]
 name = "http-client-if"
 version = "0.1.0"
-source = "git+https://github.com/cuhey3/my-if.git#c6cc5c39655ec7a912648b98d80031506794b4c0"
+source = "git+https://github.com/cuhey3/my-if.git#29efeda9c2bdcfc0bf4c724087369e68934bb456"
 dependencies = [
  "http",
  "serde",
@@ -2956,7 +2956,7 @@ dependencies = [
 [[package]]
 name = "webrtc-if"
 version = "0.1.0"
-source = "git+https://github.com/cuhey3/my-if.git#c6cc5c39655ec7a912648b98d80031506794b4c0"
+source = "git+https://github.com/cuhey3/my-if.git#29efeda9c2bdcfc0bf4c724087369e68934bb456"
 dependencies = [
  "serde",
 ]

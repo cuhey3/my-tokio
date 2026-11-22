@@ -300,6 +300,14 @@ impl PeerConnectionAdapter for PeerConnectionAdapterImpl {
             .map_err(|err| format!("data channel send error: {}", err))
     }
 
+    async fn send_string_no_result(&self, value: String) {
+        self.data_channel
+            .as_ref()
+            .unwrap()
+            .send_text(value)
+            .await.expect("TODO: panic message");
+    }
+
     async fn wait_message_json(&self) -> Result<String, String> {
         let message = self
             .get_message_receiver()
